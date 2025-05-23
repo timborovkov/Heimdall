@@ -268,7 +268,7 @@ export default function Dashboard() {
                 </div>
               </div>
               {!isMapCollapsed && (
-                <div className="h-[calc(100vh-100px)]">
+                <div className="h-[calc(100vh-100px)] overflow-hidden">
                   <TacticalMap cameras={cameras} />
                 </div>
               )}
