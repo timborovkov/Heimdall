@@ -43,10 +43,10 @@ export default function TacticalMap({ cameras }: TacticalMapProps) {
 
     loadLeaflet().then(() => {
       if (!mapInstanceRef.current && window.L) {
-        // Initialize map
+        // Initialize map centered on Riihimäki, Finland
         mapInstanceRef.current = window.L.map(mapRef.current, {
-          center: [40.7128, -74.0060],
-          zoom: 13,
+          center: [60.7395, 24.7729],
+          zoom: 15,
           zoomControl: false
         });
 

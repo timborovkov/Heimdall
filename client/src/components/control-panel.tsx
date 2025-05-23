@@ -1,6 +1,7 @@
 import { Settings, Search, Download, RefreshCw, AlertTriangle, Wrench, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import PerimeterTracker from "@/components/perimeter-tracker";
 import type { Camera } from "@shared/schema";
 
 interface ControlPanelProps {
