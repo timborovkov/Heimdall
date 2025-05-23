@@ -34,6 +34,9 @@ export default function CameraModal({ isOpen, onClose, onSuccess, camera, mapCli
     roll: camera?.roll?.toString() || '0',
     status: camera?.status || 'active',
     cameraType: camera?.cameraType || 'Standard Surveillance',
+    feedUrl: camera?.feedUrl || '',
+    feedUsername: camera?.feedUsername || '',
+    feedPassword: camera?.feedPassword || '',
   });
 
   const createMutation = useMutation({
@@ -92,6 +95,9 @@ export default function CameraModal({ isOpen, onClose, onSuccess, camera, mapCli
       roll: '0',
       status: 'active',
       cameraType: 'Standard Surveillance',
+      feedUrl: '',
+      feedUsername: '',
+      feedPassword: '',
     });
   };
 

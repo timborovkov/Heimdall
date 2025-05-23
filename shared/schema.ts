@@ -15,6 +15,9 @@ export const cameras = pgTable("cameras", {
   roll: integer("roll").notNull(), // rotation around forward axis (-180 to +180 degrees)
   status: text("status").notNull().default("active"), // active, maintenance, offline
   cameraType: text("camera_type").notNull().default("Standard Surveillance"),
+  feedUrl: text("feed_url"), // live camera feed URL
+  feedUsername: text("feed_username"), // authentication username for feed
+  feedPassword: text("feed_password"), // authentication password for feed
   lastDetection: timestamp("last_detection"),
 });
 
@@ -32,6 +35,9 @@ export const insertCameraSchema = createInsertSchema(cameras).omit({
   roll: z.number().min(-180).max(180),
   status: z.enum(["active", "maintenance", "offline"]).default("active"),
   cameraType: z.enum(["Standard Surveillance", "Thermal Imaging", "Night Vision", "High Resolution"]).default("Standard Surveillance"),
+  feedUrl: z.string().url().optional(),
+  feedUsername: z.string().optional(),
+  feedPassword: z.string().optional(),
 });
 
 export const updateCameraSchema = insertCameraSchema.partial();

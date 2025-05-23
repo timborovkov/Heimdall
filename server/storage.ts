@@ -104,7 +104,7 @@ export class MemStorage implements IStorage {
     this.cameras = new Map();
     this.currentId = 1;
     
-    // Initialize with some default cameras
+    // Initialize with some default cameras with live feeds
     this.createCamera({
       cameraId: "CAM-001",
       latitude: 40.7128,
@@ -117,6 +117,9 @@ export class MemStorage implements IStorage {
       roll: 0,
       status: "active",
       cameraType: "Standard Surveillance",
+      feedUrl: "rtsp://example.com:554/live/cam001",
+      feedUsername: "admin",
+      feedPassword: "tactical123",
     });
     
     this.createCamera({
@@ -131,6 +134,9 @@ export class MemStorage implements IStorage {
       roll: 0,
       status: "active",
       cameraType: "High Resolution",
+      feedUrl: "http://example.com:8080/stream/cam002",
+      feedUsername: "operator",
+      feedPassword: "secure456",
     });
     
     this.createCamera({
@@ -145,6 +151,9 @@ export class MemStorage implements IStorage {
       roll: 0,
       status: "maintenance",
       cameraType: "Thermal Imaging",
+      feedUrl: "rtsp://thermal.example.com/cam003",
+      feedUsername: "thermal_user",
+      feedPassword: "heat789",
     });
     
     this.createCamera({
@@ -159,6 +168,9 @@ export class MemStorage implements IStorage {
       roll: 0,
       status: "active",
       cameraType: "Night Vision",
+      feedUrl: "http://nightcam.example.com/feed",
+      feedUsername: "nightwatch",
+      feedPassword: "vision101",
     });
   }
 
