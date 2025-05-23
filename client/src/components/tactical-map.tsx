@@ -18,26 +18,31 @@ export default function TacticalMap({ cameras }: TacticalMapProps) {
   const markersRef = useRef<any[]>([]);
 
   useEffect(() => {
-    if (!mapRef.current) return;
-
-    // Load Leaflet CSS and JS
     const loadLeaflet = async () => {
-      // Load CSS
-      if (!document.querySelector('link[href*="leaflet.css"]')) {
+      if (window.L) return;
+      
+      try {
+        // Load Leaflet CSS
         const link = document.createElement('link');
         link.rel = 'stylesheet';
         link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
         document.head.appendChild(link);
-      }
 
-      // Load JS
-      if (!window.L) {
-        return new Promise<void>((resolve) => {
-          const script = document.createElement('script');
-          script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
-          script.onload = () => resolve();
-          document.head.appendChild(script);
-        });
+        // Load Leaflet JS
+        const script = document.createElement('script');
+        script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+        script.onload = () => {
+          // Fix default marker icons
+          delete (window.L.Icon.Default.prototype as any)._getIconUrl;
+          window.L.Icon.Default.mergeOptions({
+            iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
+            iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+          });
+        };
+        document.head.appendChild(script);
+      } catch (error) {
+        console.error('Error loading Leaflet:', error);
       }
     };
 
@@ -71,7 +76,8 @@ export default function TacticalMap({ cameras }: TacticalMapProps) {
     };
   }, []);
 
-  useEffect(() => {
+  // Function to render cameras on the map
+  const renderCameras = () => {
     if (!mapInstanceRef.current || !window.L) return;
 
     // Clear existing markers
@@ -118,24 +124,27 @@ export default function TacticalMap({ cameras }: TacticalMapProps) {
             Type: ${camera.cameraType}<br>
             Position: ${lat.toFixed(4)}, ${lng.toFixed(4)}
           </div>
-        `);
-      } catch (e) {
-        console.warn(`Failed to bind popup for camera ${camera.cameraId}`);
+        `, {
+          className: 'tactical-popup',
+          closeButton: false
+        });
+      } catch (error) {
+        console.warn(`Failed to bind popup for camera ${camera.cameraId}:`, error);
       }
 
       markersRef.current.push(marker);
 
-      // Create field of view if camera is active
-      if (camera.status === 'active') {
+      // Add FOV visualization if camera is active
+      if (camera.status === 'active' && camera.range && camera.fov && camera.yaw !== undefined) {
         try {
           const fovPoints = createFOVPolygon(camera);
           if (fovPoints.length > 0) {
             const fovPolygon = window.L.polygon(fovPoints, {
               color: '#F6AD55',
-              weight: 2,
-              opacity: 0.8,
-              fillColor: '#F6AD55',
-              fillOpacity: 0.2
+              weight: 1,
+              opacity: 0.6,
+              fillColor: '#48BB78',
+              fillOpacity: 0.1
             }).addTo(mapInstanceRef.current);
 
             markersRef.current.push(fovPolygon);
@@ -145,6 +154,11 @@ export default function TacticalMap({ cameras }: TacticalMapProps) {
         }
       }
     });
+  };
+
+  // Use effect to render cameras when map or cameras change
+  useEffect(() => {
+    renderCameras();
   }, [cameras]);
 
   const createFOVPolygon = (camera: Camera) => {
