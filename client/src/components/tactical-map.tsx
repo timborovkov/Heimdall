@@ -47,25 +47,37 @@ export default function TacticalMap({ cameras }: TacticalMapProps) {
     };
 
     loadLeaflet().then(() => {
-      if (!mapInstanceRef.current && window.L) {
-        // Initialize map centered on Riihimäki, Finland
-        mapInstanceRef.current = window.L.map(mapRef.current, {
-          center: [60.7395, 24.7729],
-          zoom: 15,
-          zoomControl: false
-        });
+      // Wait a bit for Leaflet to fully load
+      setTimeout(() => {
+        if (!mapInstanceRef.current && window.L && mapRef.current) {
+          try {
+            // Initialize map centered on Riihimäki, Finland
+            mapInstanceRef.current = window.L.map(mapRef.current, {
+              center: [60.7395, 24.7729],
+              zoom: 15,
+              zoomControl: false
+            });
 
-        // Add custom zoom control
-        window.L.control.zoom({
-          position: 'bottomright'
-        }).addTo(mapInstanceRef.current);
+            // Add custom zoom control
+            window.L.control.zoom({
+              position: 'bottomright'
+            }).addTo(mapInstanceRef.current);
 
-        // Add satellite tiles
-        window.L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-          attribution: 'Heimdall Tactical System',
-          maxZoom: 18
-        }).addTo(mapInstanceRef.current);
-      }
+            // Add satellite tiles
+            window.L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+              attribution: 'Heimdall Tactical System',
+              maxZoom: 18
+            }).addTo(mapInstanceRef.current);
+
+            // Trigger camera rendering after map is ready
+            setTimeout(() => {
+              renderCameras();
+            }, 500);
+          } catch (error) {
+            console.error('Error initializing map:', error);
+          }
+        }
+      }, 100);
     });
 
     return () => {
