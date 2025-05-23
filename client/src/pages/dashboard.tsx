@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Radar, MapPin } from "lucide-react";
+import { Radar, MapPin, ChevronUp, ChevronDown } from "lucide-react";
 import TacticalMap from "@/components/tactical-map";
 import CameraCard from "@/components/camera-card";
 import CameraModal from "@/components/camera-modal";
@@ -18,6 +18,7 @@ export default function Dashboard() {
   const [viewingFeedCamera, setViewingFeedCamera] = useState<Camera | null>(null);
   const [viewingTrajectory, setViewingTrajectory] = useState<DroneAlert | null>(null);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [isMapCollapsed, setIsMapCollapsed] = useState(false);
 
   const { data: cameras = [], isLoading, refetch } = useQuery<Camera[]>({
     queryKey: ["/api/cameras"],
@@ -189,7 +190,7 @@ export default function Dashboard() {
         {/* Main Content */}
         <main className="flex-1 flex flex-col">
           {/* Map Section */}
-          <section className="flex-1 relative">
+          <section className={`relative transition-all duration-300 ${isMapCollapsed ? 'h-12' : 'flex-1'}`}>
             <div className="absolute inset-4 tactical-navy rounded-lg border border-tactical-steel overflow-hidden">
               <div className="tactical-charcoal px-4 py-2 border-b border-tactical-steel">
                 <div className="flex items-center justify-between">
@@ -198,18 +199,30 @@ export default function Dashboard() {
                     <span className="font-semibold">HEIMDALL TACTICAL OVERVIEW</span>
                   </div>
                   <div className="flex items-center space-x-4">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-3 h-3 bg-tactical-amber rounded-full"></div>
-                      <span className="text-xs text-tactical-slate">CAMERA POSITIONS</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-3 h-3 bg-tactical-green rounded-full"></div>
-                      <span className="text-xs text-tactical-slate">ACTIVE ZONES</span>
-                    </div>
+                    {!isMapCollapsed && (
+                      <>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-3 h-3 bg-tactical-amber rounded-full"></div>
+                          <span className="text-xs text-tactical-slate">CAMERA POSITIONS</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-3 h-3 bg-tactical-green rounded-full"></div>
+                          <span className="text-xs text-tactical-slate">ACTIVE ZONES</span>
+                        </div>
+                      </>
+                    )}
+                    <Button
+                      onClick={() => setIsMapCollapsed(!isMapCollapsed)}
+                      variant="ghost"
+                      size="sm"
+                      className="text-tactical-slate hover:text-white hover:bg-white/10 p-1"
+                    >
+                      {isMapCollapsed ? <ChevronDown size={16} /> : <ChevronUp size={16} />}
+                    </Button>
                   </div>
                 </div>
               </div>
-              <TacticalMap cameras={cameras} />
+              {!isMapCollapsed && <TacticalMap cameras={cameras} />}
             </div>
           </section>
 
