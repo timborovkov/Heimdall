@@ -111,6 +111,10 @@ export default function Dashboard() {
                   <div className="text-xl font-mono font-bold">85m</div>
                   <div className="text-xs opacity-75">Altitude</div>
                 </div>
+                <div className="text-center">
+                  <div className="text-xl font-mono font-bold">2.1km</div>
+                  <div className="text-xs opacity-75">Distance</div>
+                </div>
               </div>
             </div>
             
