@@ -131,7 +131,7 @@ export default function SystemHealthDashboard({ cameras }: SystemHealthDashboard
       <Card className="tactical-navy border-tactical-steel">
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-white flex items-center">
+            <CardTitle className="font-semibold tracking-tight text-white flex items-center text-[12px]">
               <Activity className="text-tactical-amber mr-2 animate-pulse" size={20} />
               SYSTEM HEALTH
             </CardTitle>
