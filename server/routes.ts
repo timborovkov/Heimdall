@@ -110,6 +110,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           errors: error.errors 
         });
       }
+      console.error("Error updating camera:", error);
       res.status(500).json({ message: "Failed to update camera" });
     }
   });
