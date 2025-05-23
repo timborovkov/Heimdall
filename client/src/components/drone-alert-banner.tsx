@@ -34,7 +34,18 @@ export default function DroneAlertBanner({ alerts, onDismiss, onViewTrajectory }
     }
   }, [alerts, alertIndex]);
 
-  if (!currentAlert) return null;
+  // Temporarily force display for testing
+  if (!currentAlert && alerts.length > 0) {
+    console.log('Forcing display of first alert for testing:', alerts[0]);
+    setCurrentAlert(alerts[0]);
+  }
+  
+  if (!currentAlert) {
+    console.log('No current alert to display, alerts length:', alerts.length);
+    return null;
+  }
+  
+  console.log('Displaying alert:', currentAlert);
 
   const getThreatColor = (level: string) => {
     switch (level) {
