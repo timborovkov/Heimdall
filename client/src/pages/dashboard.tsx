@@ -4,6 +4,7 @@ import { Radar, MapPin } from "lucide-react";
 import TacticalMap from "@/components/tactical-map";
 import CameraCard from "@/components/camera-card";
 import CameraModal from "@/components/camera-modal";
+import CameraFeedViewer from "@/components/camera-feed-viewer";
 import ControlPanel from "@/components/control-panel";
 import HeimdallLogo from "@/components/heimdall-logo";
 import { Button } from "@/components/ui/button";
@@ -12,6 +13,7 @@ import type { Camera } from "@shared/schema";
 export default function Dashboard() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editingCamera, setEditingCamera] = useState<Camera | null>(null);
+  const [viewingFeedCamera, setViewingFeedCamera] = useState<Camera | null>(null);
   const [currentTime, setCurrentTime] = useState(new Date());
 
   const { data: cameras = [], isLoading, refetch } = useQuery<Camera[]>({
@@ -43,6 +45,10 @@ export default function Dashboard() {
 
   const handleEditCamera = (camera: Camera) => {
     setEditingCamera(camera);
+  };
+
+  const handleViewFeed = (camera: Camera) => {
+    setViewingFeedCamera(camera);
   };
 
   if (isLoading) {
