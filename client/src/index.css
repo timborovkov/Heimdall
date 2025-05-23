@@ -1,0 +1,187 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 240 10% 3.9%; /* #0F1419 */
+  --foreground: 0 0% 98%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --card: 214 32% 19%; /* #1A2332 */
+  --card-foreground: 0 0% 98%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --primary: 25 95% 53%; /* #F6AD55 */
+  --primary-foreground: 214 32% 19%;
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+  --accent: 240 3.7% 15.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 60 9.1% 97.8%;
+  --ring: 240 4.9% 83.9%;
+  --radius: 0.5rem;
+  
+  /* Tactical colors */
+  --tactical-dark: 240 100% 8%; /* #0F1419 */
+  --tactical-navy: 214 32% 19%; /* #1A2332 */
+  --tactical-charcoal: 219 20% 28%; /* #2D3748 */
+  --tactical-amber: 25 95% 53%; /* #F6AD55 */
+  --tactical-green: 142 69% 58%; /* #48BB78 */
+  --tactical-orange: 24 94% 50%; /* #ED8936 */
+  --tactical-red: 0 84% 60%; /* #F56565 */
+  --tactical-steel: 218 11% 34%; /* #4A5568 */
+  --tactical-slate: 215 16% 47%; /* #718096 */
+}
+
+.dark {
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --card: 214 32% 19%;
+  --card-foreground: 0 0% 98%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --primary: 25 95% 53%;
+  --primary-foreground: 214 32% 19%;
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+  --accent: 240 3.7% 15.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --ring: 240 4.9% 83.9%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased;
+    background: hsl(var(--tactical-dark));
+    color: hsl(var(--foreground));
+  }
+}
+
+@layer utilities {
+  .tactical-dark {
+    background: hsl(var(--tactical-dark));
+  }
+  
+  .tactical-navy {
+    background: hsl(var(--tactical-navy));
+  }
+  
+  .tactical-charcoal {
+    background: hsl(var(--tactical-charcoal));
+  }
+  
+  .text-tactical-amber {
+    color: hsl(var(--tactical-amber));
+  }
+  
+  .text-tactical-green {
+    color: hsl(var(--tactical-green));
+  }
+  
+  .text-tactical-orange {
+    color: hsl(var(--tactical-orange));
+  }
+  
+  .text-tactical-red {
+    color: hsl(var(--tactical-red));
+  }
+  
+  .text-tactical-steel {
+    color: hsl(var(--tactical-steel));
+  }
+  
+  .text-tactical-slate {
+    color: hsl(var(--tactical-slate));
+  }
+  
+  .bg-tactical-amber {
+    background: hsl(var(--tactical-amber));
+  }
+  
+  .bg-tactical-green {
+    background: hsl(var(--tactical-green));
+  }
+  
+  .bg-tactical-orange {
+    background: hsl(var(--tactical-orange));
+  }
+  
+  .bg-tactical-red {
+    background: hsl(var(--tactical-red));
+  }
+  
+  .bg-tactical-steel {
+    background: hsl(var(--tactical-steel));
+  }
+  
+  .border-tactical-amber {
+    border-color: hsl(var(--tactical-amber));
+  }
+  
+  .border-tactical-green {
+    border-color: hsl(var(--tactical-green));
+  }
+  
+  .border-tactical-orange {
+    border-color: hsl(var(--tactical-orange));
+  }
+  
+  .border-tactical-red {
+    border-color: hsl(var(--tactical-red));
+  }
+  
+  .border-tactical-steel {
+    border-color: hsl(var(--tactical-steel));
+  }
+  
+  .status-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
+
+/* Leaflet styling overrides */
+.leaflet-container {
+  background: hsl(var(--tactical-navy)) !important;
+}
+
+.leaflet-tile {
+  filter: hue-rotate(210deg) saturate(0.8) brightness(0.7);
+}
+
+.leaflet-control-zoom {
+  border: none !important;
+}
+
+.leaflet-control-zoom a {
+  background: hsl(var(--tactical-charcoal)) !important;
+  color: hsl(var(--tactical-amber)) !important;
+  border: 1px solid hsl(var(--tactical-steel)) !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background: hsl(var(--tactical-steel)) !important;
+}
+
+.leaflet-popup-content-wrapper {
+  background: hsl(var(--tactical-navy)) !important;
+  color: white !important;
+  border: 1px solid hsl(var(--tactical-steel)) !important;
+}
+
+.leaflet-popup-tip {
+  background: hsl(var(--tactical-navy)) !important;
+  border: 1px solid hsl(var(--tactical-steel)) !important;
+}
