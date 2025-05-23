@@ -125,7 +125,7 @@ export default function CameraCard({ camera, onEdit, onDelete, onViewFeed }: Cam
             <Button
               variant="outline"
               size="sm"
-              onClick={deleteMutation.mutate}
+              onClick={() => deleteMutation.mutate()}
               disabled={deleteMutation.isPending}
               className="border-red-600 text-red-400 hover:bg-red-600 hover:text-white"
             >

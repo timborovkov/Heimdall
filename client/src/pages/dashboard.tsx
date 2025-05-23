@@ -147,6 +147,7 @@ export default function Dashboard() {
                       camera={camera}
                       onEdit={handleEditCamera}
                       onDelete={handleCameraDeleted}
+                      onViewFeed={handleViewFeed}
                     />
                   ))}
                 </div>
@@ -175,6 +176,13 @@ export default function Dashboard() {
           camera={editingCamera}
         />
       )}
+
+      {/* Live Camera Feed Viewer */}
+      <CameraFeedViewer
+        camera={viewingFeedCamera}
+        isOpen={!!viewingFeedCamera}
+        onClose={() => setViewingFeedCamera(null)}
+      />
     </div>
   );
 }
