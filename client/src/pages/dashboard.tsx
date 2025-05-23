@@ -15,12 +15,20 @@ import type { Camera, DroneAlert } from "@shared/schema";
 export default function Dashboard() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editingCamera, setEditingCamera] = useState<Camera | null>(null);
-  const [viewingFeedCamera, setViewingFeedCamera] = useState<Camera | null>(null);
-  const [viewingTrajectory, setViewingTrajectory] = useState<DroneAlert | null>(null);
+  const [viewingFeedCamera, setViewingFeedCamera] = useState<Camera | null>(
+    null
+  );
+  const [viewingTrajectory, setViewingTrajectory] = useState<DroneAlert | null>(
+    null
+  );
   const [currentTime, setCurrentTime] = useState(new Date());
   const [isMapCollapsed, setIsMapCollapsed] = useState(false);
 
-  const { data: cameras = [], isLoading, refetch } = useQuery<Camera[]>({
+  const {
+    data: cameras = [],
+    isLoading,
+    refetch,
+  } = useQuery<Camera[]>({
     queryKey: ["/api/cameras"],
   });
 
@@ -36,7 +44,7 @@ export default function Dashboard() {
     return () => clearInterval(timer);
   }, []);
 
-  const activeCameras = cameras.filter(camera => camera.status === 'active');
+  const activeCameras = cameras.filter((camera) => camera.status === "active");
 
   const handleCameraAdded = () => {
     refetch();
@@ -60,11 +68,6 @@ export default function Dashboard() {
     setViewingFeedCamera(camera);
   };
 
-  const handleDismissAlert = (alertId: number) => {
-    // In a real implementation, this would update the alert status
-    console.log('Dismissing alert:', alertId);
-  };
-
   const handleViewTrajectory = (alert: DroneAlert) => {
     setViewingTrajectory(alert);
   };
@@ -74,7 +77,9 @@ export default function Dashboard() {
       <div className="min-h-screen tactical-dark flex items-center justify-center">
         <div className="flex flex-col items-center space-y-4">
           <HeimdallLogo className="w-16 h-16 animate-pulse" />
-          <div className="text-tactical-amber font-mono">INITIALIZING HEIMDALL SYSTEMS...</div>
+          <div className="text-tactical-amber font-mono">
+            INITIALIZING HEIMDALL SYSTEMS...
+          </div>
         </div>
       </div>
     );
@@ -90,15 +95,13 @@ export default function Dashboard() {
               <div className="flex items-center">
                 <div className="w-8 h-8 mr-3 animate-bounce">⚠️</div>
                 <div>
-                  <h2 className="text-2xl font-bold">
-                    🚁 DRONE DETECTED
-                  </h2>
+                  <h2 className="text-2xl font-bold">🚁 DRONE DETECTED</h2>
                   <p className="text-lg opacity-90">
                     Unknown • Camera HEIMDALL-N1
                   </p>
                 </div>
               </div>
-              
+
               <div className="flex items-center space-x-6">
                 <div className="text-center">
                   <div className="text-3xl font-mono font-bold">94%</div>
@@ -118,7 +121,7 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
-            
+
             <div className="flex items-center space-x-3">
               <div className="text-lg px-4 py-2 animate-pulse bg-red-700 rounded font-bold">
                 HIGH THREAT
@@ -140,12 +143,33 @@ export default function Dashboard() {
                     threatLevel: "High",
                     status: "active",
                     estimatedTrajectory: JSON.stringify([
-                      { lat: 60.7515, lng: 24.7735, estimatedTime: "Now", confidence: 94 },
-                      { lat: 60.7510, lng: 24.7730, estimatedTime: "+30s", confidence: 88 },
-                      { lat: 60.7505, lng: 24.7725, estimatedTime: "+1m", confidence: 82 },
-                      { lat: 60.7500, lng: 24.7720, estimatedTime: "+1.5m", confidence: 76 }
+                      {
+                        lat: 60.7515,
+                        lng: 24.7735,
+                        estimatedTime: "Now",
+                        confidence: 94,
+                      },
+                      {
+                        lat: 60.751,
+                        lng: 24.773,
+                        estimatedTime: "+30s",
+                        confidence: 88,
+                      },
+                      {
+                        lat: 60.7505,
+                        lng: 24.7725,
+                        estimatedTime: "+1m",
+                        confidence: 82,
+                      },
+                      {
+                        lat: 60.75,
+                        lng: 24.772,
+                        estimatedTime: "+1.5m",
+                        confidence: 76,
+                      },
                     ]),
-                    notes: "Fast-moving object detected approaching industrial zone. Maintain visual contact."
+                    notes:
+                      "Fast-moving object detected approaching industrial zone. Maintain visual contact.",
                   };
                   handleViewTrajectory(mockAlert);
                 }}
@@ -155,7 +179,9 @@ export default function Dashboard() {
               >
                 📍 View Trajectory
               </Button>
-              <button className="text-red-100 hover:text-white text-xl p-1">&times;</button>
+              <button className="text-red-100 hover:text-white text-xl p-1">
+                &times;
+              </button>
             </div>
           </div>
         </div>
@@ -168,19 +194,25 @@ export default function Dashboard() {
             <HeimdallLogo className="w-8 h-8" />
             <div>
               <h1 className="text-xl font-bold tracking-wider">HEIMDALL</h1>
-              <p className="text-tactical-slate text-sm font-mono">DRONE DETECTION SYSTEM • OPERATIONAL</p>
+              <p className="text-tactical-slate text-sm font-mono">
+                DRONE DETECTION SYSTEM • OPERATIONAL
+              </p>
             </div>
           </div>
           <div className="flex items-center space-x-6">
             <div className="text-right">
-              <p className="text-tactical-slate text-xs font-mono">LAST UPDATE</p>
+              <p className="text-tactical-slate text-xs font-mono">
+                LAST UPDATE
+              </p>
               <p className="text-tactical-amber text-sm font-mono">
-                {currentTime.toUTCString().split(' ')[4]} UTC
+                {currentTime.toUTCString().split(" ")[4]} UTC
               </p>
             </div>
             <div className="flex items-center space-x-2">
               <div className="w-3 h-3 bg-tactical-green rounded-full status-pulse"></div>
-              <span className="text-tactical-green text-sm font-mono">ACTIVE</span>
+              <span className="text-tactical-green text-sm font-mono">
+                ACTIVE
+              </span>
             </div>
           </div>
         </div>
@@ -190,23 +222,33 @@ export default function Dashboard() {
         {/* Main Content */}
         <main className="flex-1 flex flex-col">
           {/* Map Section */}
-          <section className={`transition-all duration-300 ${isMapCollapsed ? 'h-20' : 'h-96'}`}>
+          <section
+            className={`transition-all duration-300 ${
+              isMapCollapsed ? "h-20" : "h-96"
+            }`}
+          >
             <div className="h-full m-4 tactical-navy rounded-lg border border-tactical-steel overflow-hidden relative">
               <div className="tactical-charcoal px-4 py-2 border-b border-tactical-steel">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
                     <MapPin className="text-tactical-amber" size={20} />
-                    <span className="font-semibold">HEIMDALL TACTICAL OVERVIEW</span>
+                    <span className="font-semibold">
+                      HEIMDALL TACTICAL OVERVIEW
+                    </span>
                   </div>
                   {!isMapCollapsed && (
                     <div className="flex items-center space-x-4">
                       <div className="flex items-center space-x-2">
                         <div className="w-3 h-3 bg-tactical-amber rounded-full"></div>
-                        <span className="text-xs text-tactical-slate">CAMERA POSITIONS</span>
+                        <span className="text-xs text-tactical-slate">
+                          CAMERA POSITIONS
+                        </span>
                       </div>
                       <div className="flex items-center space-x-2">
                         <div className="w-3 h-3 bg-tactical-green rounded-full"></div>
-                        <span className="text-xs text-tactical-slate">ACTIVE ZONES</span>
+                        <span className="text-xs text-tactical-slate">
+                          ACTIVE ZONES
+                        </span>
                       </div>
                     </div>
                   )}
@@ -217,12 +259,16 @@ export default function Dashboard() {
                     size="sm"
                     className="text-tactical-slate hover:text-white hover:bg-white/10 p-1"
                   >
-                    {isMapCollapsed ? <ChevronDown size={16} /> : <ChevronUp size={16} />}
+                    {isMapCollapsed ? (
+                      <ChevronDown size={16} />
+                    ) : (
+                      <ChevronUp size={16} />
+                    )}
                   </Button>
                 </div>
               </div>
               {!isMapCollapsed && (
-                <div className="h-[calc(100%-48px)]">
+                <div className="h-[calc(100vh-100px)]">
                   <TacticalMap cameras={cameras} />
                 </div>
               )}
@@ -250,7 +296,7 @@ export default function Dashboard() {
                   </Button>
                 </div>
               </div>
-              
+
               <div className="flex-1 overflow-y-auto p-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                   {cameras.map((camera) => (
