@@ -40,7 +40,7 @@ export default function CameraFeedViewer({ camera, isOpen, onClose }: CameraFeed
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className={`tactical-navy border-tactical-steel ${isFullscreen ? 'max-w-full h-full' : 'max-w-4xl'}`}>
+      <DialogContent className={`tactical-navy border-tactical-steel z-[9999] ${isFullscreen ? 'max-w-full h-full' : 'max-w-4xl'}`}>
         <DialogHeader className="tactical-charcoal -mx-6 -mt-6 px-6 py-4 border-b border-tactical-steel">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
