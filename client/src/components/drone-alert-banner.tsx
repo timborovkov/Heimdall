@@ -17,7 +17,9 @@ export default function DroneAlertBanner({ alerts, onDismiss, onViewTrajectory }
 
   // Cycle through active alerts
   useEffect(() => {
+    console.log('DroneAlertBanner received alerts:', alerts);
     const activeAlerts = alerts.filter(alert => alert.status === 'active');
+    console.log('Active alerts found:', activeAlerts);
     if (activeAlerts.length > 0) {
       setCurrentAlert(activeAlerts[alertIndex % activeAlerts.length]);
       
