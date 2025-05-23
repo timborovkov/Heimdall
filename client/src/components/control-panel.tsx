@@ -2,6 +2,7 @@ import { Settings, Search, Download, RefreshCw, AlertTriangle, Wrench, CheckCirc
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import PerimeterTracker from "@/components/perimeter-tracker";
+import SystemHealthDashboard from "@/components/system-health-dashboard";
 import type { Camera } from "@shared/schema";
 
 interface ControlPanelProps {
@@ -65,10 +66,13 @@ export default function ControlPanel({ cameras }: ControlPanelProps) {
         </div>
         
         <div className="flex-1 overflow-y-auto p-4 space-y-6">
+          {/* Animated System Health Dashboard */}
+          <SystemHealthDashboard cameras={cameras} />
+          
           {/* System Status */}
           <div className="space-y-3">
             <h4 className="text-sm font-semibold text-tactical-amber border-b border-tactical-steel pb-1">
-              SYSTEM STATUS
+              NETWORK STATUS
             </h4>
             <div className="space-y-2">
               <div className="flex justify-between items-center">
