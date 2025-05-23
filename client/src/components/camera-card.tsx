@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { Edit, Trash2 } from "lucide-react";
+import { Edit, Trash2, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
@@ -11,9 +11,10 @@ interface CameraCardProps {
   camera: Camera;
   onEdit: (camera: Camera) => void;
   onDelete: () => void;
+  onViewFeed: (camera: Camera) => void;
 }
 
-export default function CameraCard({ camera, onEdit, onDelete }: CameraCardProps) {
+export default function CameraCard({ camera, onEdit, onDelete, onViewFeed }: CameraCardProps) {
   const { toast } = useToast();
 
   const deleteMutation = useMutation({
@@ -93,11 +94,43 @@ export default function CameraCard({ camera, onEdit, onDelete }: CameraCardProps
         </div>
 
         <div className="mt-4 pt-3 border-t border-tactical-steel">
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center mb-3">
             <span className="text-xs text-tactical-slate">Last Detection</span>
             <span className="text-xs font-mono text-tactical-amber">
               {formatTimeAgo(camera.lastDetection)}
             </span>
+          </div>
+          
+          {/* Action Buttons */}
+          <div className="flex gap-2">
+            {camera.feedUrl && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => onViewFeed(camera)}
+                className="flex-1 border-tactical-amber text-tactical-amber hover:bg-tactical-amber hover:text-black"
+              >
+                <Play className="w-3 h-3 mr-1" />
+                View Feed
+              </Button>
+            )}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onEdit(camera)}
+              className="border-tactical-steel text-tactical-slate hover:bg-tactical-steel hover:text-white"
+            >
+              <Edit className="w-3 h-3" />
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={deleteMutation.mutate}
+              disabled={deleteMutation.isPending}
+              className="border-red-600 text-red-400 hover:bg-red-600 hover:text-white"
+            >
+              <Trash2 className="w-3 h-3" />
+            </Button>
           </div>
         </div>
       </CardContent>

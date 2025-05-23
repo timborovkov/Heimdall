@@ -208,6 +208,9 @@ export default function CameraModal({ isOpen, onClose, onSuccess, camera, mapCli
       roll,
       status: formData.status as "active" | "maintenance" | "offline",
       cameraType: formData.cameraType as "Standard Surveillance" | "Thermal Imaging" | "Night Vision" | "High Resolution",
+      feedUrl: formData.feedUrl.trim() || undefined,
+      feedUsername: formData.feedUsername.trim() || undefined,
+      feedPassword: formData.feedPassword.trim() || undefined,
     };
 
     if (isEditing) {
@@ -380,6 +383,47 @@ export default function CameraModal({ isOpen, onClose, onSuccess, camera, mapCli
                   max="180"
                   className="tactical-charcoal border-tactical-steel text-white placeholder:text-tactical-slate focus:border-tactical-amber"
                   required
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Live Camera Feed Configuration */}
+          <div className="border border-tactical-steel rounded-lg p-4 space-y-3">
+            <h3 className="text-tactical-amber font-semibold text-sm flex items-center">
+              <Video className="w-4 h-4 mr-2" />
+              LIVE FEED CONFIGURATION
+            </h3>
+            <div>
+              <Label className="text-tactical-slate font-medium text-xs">Feed URL</Label>
+              <Input
+                type="url"
+                value={formData.feedUrl}
+                onChange={(e) => setFormData({ ...formData, feedUrl: e.target.value })}
+                placeholder="rtsp://camera.example.com:554/live or http://camera.example.com/stream"
+                className="tactical-charcoal border-tactical-steel text-white placeholder:text-tactical-slate focus:border-tactical-amber"
+              />
+              <p className="text-xs text-tactical-slate mt-1">RTSP, HTTP, or WebRTC stream URL</p>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <Label className="text-tactical-slate font-medium text-xs">Username</Label>
+                <Input
+                  type="text"
+                  value={formData.feedUsername}
+                  onChange={(e) => setFormData({ ...formData, feedUsername: e.target.value })}
+                  placeholder="admin"
+                  className="tactical-charcoal border-tactical-steel text-white placeholder:text-tactical-slate focus:border-tactical-amber"
+                />
+              </div>
+              <div>
+                <Label className="text-tactical-slate font-medium text-xs">Password</Label>
+                <Input
+                  type="password"
+                  value={formData.feedPassword}
+                  onChange={(e) => setFormData({ ...formData, feedPassword: e.target.value })}
+                  placeholder="••••••••"
+                  className="tactical-charcoal border-tactical-steel text-white placeholder:text-tactical-slate focus:border-tactical-amber"
                 />
               </div>
             </div>
