@@ -123,7 +123,7 @@ export default function Dashboard() {
                   // Create a mock alert object for the trajectory viewer
                   const mockAlert = {
                     id: 1,
-                    detectedAt: new Date().toISOString(),
+                    detectedAt: new Date(),
                     cameraId: "HEIMDALL-N1",
                     latitude: 60751000,
                     longitude: 24773500,
@@ -274,6 +274,13 @@ export default function Dashboard() {
         camera={viewingFeedCamera}
         isOpen={!!viewingFeedCamera}
         onClose={() => setViewingFeedCamera(null)}
+      />
+
+      {/* Drone Trajectory Map */}
+      <DroneTrajectoryMap
+        alert={viewingTrajectory}
+        isOpen={!!viewingTrajectory}
+        onClose={() => setViewingTrajectory(null)}
       />
     </div>
   );
