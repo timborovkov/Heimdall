@@ -1,4 +1,6 @@
 import { cameras, type Camera, type InsertCamera, type UpdateCamera } from "@shared/schema";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 
 export interface IStorage {
   getCameras(): Promise<Camera[]>;
@@ -8,6 +10,63 @@ export interface IStorage {
   updateCamera(id: number, camera: UpdateCamera): Promise<Camera | undefined>;
   deleteCamera(id: number): Promise<boolean>;
   updateLastDetection(cameraId: string): Promise<void>;
+}
+
+export class DatabaseStorage implements IStorage {
+  async getCameras(): Promise<Camera[]> {
+    return await db.select().from(cameras);
+  }
+
+  async getCamera(id: number): Promise<Camera | undefined> {
+    const [camera] = await db.select().from(cameras).where(eq(cameras.id, id));
+    return camera || undefined;
+  }
+
+  async getCameraByCameraId(cameraId: string): Promise<Camera | undefined> {
+    const [camera] = await db.select().from(cameras).where(eq(cameras.cameraId, cameraId));
+    return camera || undefined;
+  }
+
+  async createCamera(insertCamera: InsertCamera): Promise<Camera> {
+    const cameraData = {
+      ...insertCamera,
+      latitude: Math.round(insertCamera.latitude * 1000000),
+      longitude: Math.round(insertCamera.longitude * 1000000),
+    };
+    
+    const [camera] = await db
+      .insert(cameras)
+      .values(cameraData)
+      .returning();
+    return camera;
+  }
+
+  async updateCamera(id: number, updateCamera: UpdateCamera): Promise<Camera | undefined> {
+    const updateData = {
+      ...updateCamera,
+      ...(updateCamera.latitude && { latitude: Math.round(updateCamera.latitude * 1000000) }),
+      ...(updateCamera.longitude && { longitude: Math.round(updateCamera.longitude * 1000000) }),
+    };
+
+    const [camera] = await db
+      .update(cameras)
+      .set(updateData)
+      .where(eq(cameras.id, id))
+      .returning();
+    return camera || undefined;
+  }
+
+  async deleteCamera(id: number): Promise<boolean> {
+    const result = await db.delete(cameras).where(eq(cameras.id, id));
+    return (result.rowCount ?? 0) > 0;
+  }
+
+  async updateLastDetection(cameraId: string): Promise<void> {
+    await db
+      .update(cameras)
+      .set({ lastDetection: new Date() })
+      .where(eq(cameras.cameraId, cameraId));
+  }
 }
 
 export class MemStorage implements IStorage {
@@ -121,4 +180,4 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
