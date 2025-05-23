@@ -227,7 +227,7 @@ export default function DroneTrajectoryMap({ alert, isOpen, onClose }: DroneTraj
   const lng = alert.longitude / 1000000;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-[9999] bg-black/80 flex items-center justify-center p-4">
       <Card className="tactical-navy border-tactical-steel w-full max-w-4xl h-[80vh] flex flex-col">
         <CardHeader className="tactical-charcoal border-b border-tactical-steel">
           <div className="flex items-center justify-between">
