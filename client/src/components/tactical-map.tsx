@@ -153,8 +153,8 @@ export default function TacticalMap({ cameras }: TacticalMapProps) {
     const centerLng = camera.longitude;
     const rangeKm = camera.range / 1000;
     
-    const startAngle = camera.direction - (camera.fov / 2);
-    const endAngle = camera.direction + (camera.fov / 2);
+    const startAngle = camera.yaw - (camera.fov / 2);
+    const endAngle = camera.yaw + (camera.fov / 2);
     
     points.push([centerLat, centerLng]);
     
