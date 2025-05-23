@@ -190,8 +190,8 @@ export default function Dashboard() {
         {/* Main Content */}
         <main className="flex-1 flex flex-col">
           {/* Map Section */}
-          <section className={`relative transition-all duration-300 ${isMapCollapsed ? 'h-16' : 'flex-1'}`}>
-            <div className="absolute inset-4 tactical-navy rounded-lg border border-tactical-steel overflow-hidden z-10">
+          <section className={`transition-all duration-300 ${isMapCollapsed ? 'h-16' : 'flex-1'}`}>
+            <div className="h-full m-4 tactical-navy rounded-lg border border-tactical-steel overflow-hidden relative">
               <div className="tactical-charcoal px-4 py-2 border-b border-tactical-steel">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
@@ -213,25 +213,25 @@ export default function Dashboard() {
                 </div>
               </div>
               {!isMapCollapsed && (
-                <div className="h-[calc(100%-40px)]">
+                <div className="h-[calc(100%-48px)]">
                   <TacticalMap cameras={cameras} />
                 </div>
               )}
-            </div>
-            
-            {/* Collapse/Expand Button - Always Visible */}
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10">
-              <Button
-                onClick={() => setIsMapCollapsed(!isMapCollapsed)}
-                variant="outline"
-                size="sm"
-                className="tactical-navy border-tactical-steel text-white hover:bg-white/10 shadow-lg"
-              >
-                {isMapCollapsed ? <ChevronDown size={16} /> : <ChevronUp size={16} />}
-                <span className="ml-2 text-xs">
-                  {isMapCollapsed ? 'EXPAND MAP' : 'COLLAPSE MAP'}
-                </span>
-              </Button>
+              
+              {/* Collapse/Expand Button */}
+              <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 z-20">
+                <Button
+                  onClick={() => setIsMapCollapsed(!isMapCollapsed)}
+                  variant="outline"
+                  size="sm"
+                  className="tactical-navy border-tactical-steel text-white hover:bg-white/10 shadow-lg"
+                >
+                  {isMapCollapsed ? <ChevronDown size={16} /> : <ChevronUp size={16} />}
+                  <span className="ml-2 text-xs">
+                    {isMapCollapsed ? 'EXPAND MAP' : 'COLLAPSE MAP'}
+                  </span>
+                </Button>
+              </div>
             </div>
           </section>
 
