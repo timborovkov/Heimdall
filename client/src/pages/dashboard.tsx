@@ -118,7 +118,39 @@ export default function Dashboard() {
               <div className="text-lg px-4 py-2 animate-pulse bg-red-700 rounded font-bold">
                 HIGH THREAT
               </div>
-              <button className="text-red-100 hover:text-white text-xl">&times;</button>
+              <Button
+                onClick={() => {
+                  // Create a mock alert object for the trajectory viewer
+                  const mockAlert = {
+                    id: 1,
+                    detectedAt: new Date().toISOString(),
+                    cameraId: "HEIMDALL-N1",
+                    latitude: 60751000,
+                    longitude: 24773500,
+                    altitude: 85,
+                    confidence: 94,
+                    speed: 28,
+                    heading: 225,
+                    droneType: "Unknown",
+                    threatLevel: "High",
+                    status: "active",
+                    estimatedTrajectory: JSON.stringify([
+                      { lat: 60.7515, lng: 24.7735, estimatedTime: "Now", confidence: 94 },
+                      { lat: 60.7510, lng: 24.7730, estimatedTime: "+30s", confidence: 88 },
+                      { lat: 60.7505, lng: 24.7725, estimatedTime: "+1m", confidence: 82 },
+                      { lat: 60.7500, lng: 24.7720, estimatedTime: "+1.5m", confidence: 76 }
+                    ]),
+                    notes: "Fast-moving object detected approaching industrial zone. Maintain visual contact."
+                  };
+                  handleViewTrajectory(mockAlert);
+                }}
+                variant="outline"
+                size="sm"
+                className="bg-white/10 border-white/30 text-white hover:bg-white/20"
+              >
+                📍 View Trajectory
+              </Button>
+              <button className="text-red-100 hover:text-white text-xl p-1">&times;</button>
             </div>
           </div>
         </div>
