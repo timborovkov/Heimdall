@@ -5,6 +5,7 @@ import TacticalMap from "@/components/tactical-map";
 import CameraCard from "@/components/camera-card";
 import CameraModal from "@/components/camera-modal";
 import ControlPanel from "@/components/control-panel";
+import HeimdallLogo from "@/components/heimdall-logo";
 import { Button } from "@/components/ui/button";
 import type { Camera } from "@shared/schema";
 
@@ -47,7 +48,10 @@ export default function Dashboard() {
   if (isLoading) {
     return (
       <div className="min-h-screen tactical-dark flex items-center justify-center">
-        <div className="text-tactical-amber">Loading tactical systems...</div>
+        <div className="flex flex-col items-center space-y-4">
+          <HeimdallLogo className="w-16 h-16 animate-pulse" />
+          <div className="text-tactical-amber font-mono">INITIALIZING HEIMDALL SYSTEMS...</div>
+        </div>
       </div>
     );
   }
@@ -58,10 +62,10 @@ export default function Dashboard() {
       <header className="tactical-navy border-b border-tactical-steel px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <Radar className="text-tactical-amber text-2xl" size={28} />
+            <HeimdallLogo className="w-8 h-8" />
             <div>
-              <h1 className="text-xl font-bold tracking-wider">TACTICAL DRONE DETECTION</h1>
-              <p className="text-tactical-slate text-sm font-mono">SYSTEM STATUS: OPERATIONAL</p>
+              <h1 className="text-xl font-bold tracking-wider">HEIMDALL</h1>
+              <p className="text-tactical-slate text-sm font-mono">DRONE DETECTION SYSTEM • OPERATIONAL</p>
             </div>
           </div>
           <div className="flex items-center space-x-6">
@@ -89,7 +93,7 @@ export default function Dashboard() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
                     <MapPin className="text-tactical-amber" size={20} />
-                    <span className="font-semibold">TACTICAL MAP OVERVIEW</span>
+                    <span className="font-semibold">HEIMDALL TACTICAL OVERVIEW</span>
                   </div>
                   <div className="flex items-center space-x-4">
                     <div className="flex items-center space-x-2">

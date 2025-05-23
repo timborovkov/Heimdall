@@ -57,7 +57,7 @@ export default function TacticalMap({ cameras }: TacticalMapProps) {
 
         // Add satellite tiles
         window.L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-          attribution: 'Tactical Surveillance System',
+          attribution: 'Heimdall Tactical System',
           maxZoom: 18
         }).addTo(mapInstanceRef.current);
       }
