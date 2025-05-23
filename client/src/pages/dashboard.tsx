@@ -81,45 +81,44 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen tactical-dark text-white font-sans">
-      {/* DRONE ALERT BANNER */}
-      <div className="fixed top-0 left-0 right-0 z-50 p-4">
-        <div className="bg-red-600 border-2 border-red-500 text-red-100 shadow-2xl animate-pulse rounded">
-          <div className="p-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <div className="flex items-center">
-                  <div className="w-8 h-8 mr-3 animate-bounce">⚠️</div>
-                  <div>
-                    <h2 className="text-2xl font-bold">
-                      🚁 DRONE DETECTED
-                    </h2>
-                    <p className="text-lg opacity-90">
-                      Unknown • Camera HEIMDALL-N1
-                    </p>
-                  </div>
-                </div>
-                
-                <div className="flex items-center space-x-6">
-                  <div className="text-center">
-                    <div className="text-3xl font-mono font-bold">94%</div>
-                    <div className="text-sm opacity-75">Confidence</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-xl font-mono font-bold">28 km/h</div>
-                    <div className="text-xs opacity-75">Speed</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-xl font-mono font-bold">85m</div>
-                    <div className="text-xs opacity-75">Altitude</div>
-                  </div>
+      {/* DRONE ALERT BANNER - Pushes content down */}
+      <div className="bg-red-600 border-b-4 border-red-500 text-red-100 shadow-lg">
+        <div className="px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center">
+                <div className="w-8 h-8 mr-3 animate-bounce">⚠️</div>
+                <div>
+                  <h2 className="text-2xl font-bold">
+                    🚁 DRONE DETECTED
+                  </h2>
+                  <p className="text-lg opacity-90">
+                    Unknown • Camera HEIMDALL-N1
+                  </p>
                 </div>
               </div>
               
-              <div className="flex items-center space-x-3">
-                <div className="text-lg px-3 py-1 animate-pulse bg-red-700 rounded">
-                  HIGH THREAT
+              <div className="flex items-center space-x-6">
+                <div className="text-center">
+                  <div className="text-3xl font-mono font-bold">94%</div>
+                  <div className="text-sm opacity-75">Confidence</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-xl font-mono font-bold">28 km/h</div>
+                  <div className="text-xs opacity-75">Speed</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-xl font-mono font-bold">85m</div>
+                  <div className="text-xs opacity-75">Altitude</div>
                 </div>
               </div>
+            </div>
+            
+            <div className="flex items-center space-x-3">
+              <div className="text-lg px-4 py-2 animate-pulse bg-red-700 rounded font-bold">
+                HIGH THREAT
+              </div>
+              <button className="text-red-100 hover:text-white text-xl">&times;</button>
             </div>
           </div>
         </div>
