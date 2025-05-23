@@ -118,7 +118,7 @@ export default function CameraModal({ isOpen, onClose, onSuccess, camera }: Came
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="tactical-navy border-tactical-steel max-w-md">
+      <DialogContent className="tactical-navy border-tactical-steel max-w-md z-[10000]">
         <DialogHeader className="tactical-charcoal -mx-6 -mt-6 px-6 py-4 border-b border-tactical-steel">
           <DialogTitle className="flex items-center text-white">
             <Video className="text-tactical-amber mr-2" size={20} />

@@ -185,3 +185,8 @@
   background: hsl(var(--tactical-navy)) !important;
   border: 1px solid hsl(var(--tactical-steel)) !important;
 }
+
+/* Ensure dialogs appear above map */
+[data-radix-portal] {
+  z-index: 10000 !important;
+}
