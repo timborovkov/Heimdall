@@ -222,7 +222,11 @@ export default function Dashboard() {
                   </div>
                 </div>
               </div>
-              {!isMapCollapsed && <TacticalMap cameras={cameras} />}
+              {!isMapCollapsed && (
+                <div className="h-[calc(100%-40px)]">
+                  <TacticalMap cameras={cameras} />
+                </div>
+              )}
             </div>
           </section>
 
