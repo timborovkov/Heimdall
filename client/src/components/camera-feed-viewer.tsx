@@ -42,26 +42,16 @@ export default function CameraFeedViewer({ camera, isOpen, onClose }: CameraFeed
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className={`tactical-navy border-tactical-steel z-[9999] ${isFullscreen ? 'max-w-full h-full' : 'max-w-4xl'}`}>
         <DialogHeader className="tactical-charcoal -mx-6 -mt-6 px-6 py-4 border-b border-tactical-steel">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <DialogTitle className="text-white flex items-center">
-                LIVE FEED: {camera.cameraId}
-              </DialogTitle>
-              <Badge className={`${getStatusColor(camera.status)} text-white`}>
-                {camera.status.toUpperCase()}
-              </Badge>
-              <Badge variant="outline" className="text-tactical-amber border-tactical-amber">
-                {camera.cameraType}
-              </Badge>
-            </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onClose}
-              className="text-tactical-slate hover:text-white"
-            >
-              <X className="w-4 h-4" />
-            </Button>
+          <div className="flex items-center space-x-3">
+            <DialogTitle className="text-white flex items-center">
+              LIVE FEED: {camera.cameraId}
+            </DialogTitle>
+            <Badge className={`${getStatusColor(camera.status)} text-white`}>
+              {camera.status.toUpperCase()}
+            </Badge>
+            <Badge variant="outline" className="text-tactical-amber border-tactical-amber">
+              {camera.cameraType}
+            </Badge>
           </div>
         </DialogHeader>
 
