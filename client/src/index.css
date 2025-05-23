@@ -3,37 +3,37 @@
 @tailwind utilities;
 
 :root {
-  --background: 240 10% 3.9%; /* #0F1419 */
-  --foreground: 0 0% 98%;
-  --muted: 240 3.7% 15.9%;
-  --muted-foreground: 240 5% 64.9%;
-  --popover: 240 10% 3.9%;
-  --popover-foreground: 0 0% 98%;
-  --card: 214 32% 19%; /* #1A2332 */
-  --card-foreground: 0 0% 98%;
-  --border: 240 3.7% 15.9%;
-  --input: 240 3.7% 15.9%;
-  --primary: 25 95% 53%; /* #F6AD55 */
-  --primary-foreground: 214 32% 19%;
-  --secondary: 240 3.7% 15.9%;
-  --secondary-foreground: 0 0% 98%;
-  --accent: 240 3.7% 15.9%;
-  --accent-foreground: 0 0% 98%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 60 9.1% 97.8%;
-  --ring: 240 4.9% 83.9%;
+  --background: 0 0% 2%; /* #050505 - Ultra dark */
+  --foreground: 0 0% 95%; /* #F2F2F2 - Light text */
+  --muted: 0 0% 6%; /* #0F0F0F - Ultra dark muted */
+  --muted-foreground: 0 0% 45%; /* #737373 - Darker muted text */
+  --popover: 0 0% 3%; /* #080808 - Ultra dark popover */
+  --popover-foreground: 0 0% 95%;
+  --card: 0 0% 4%; /* #0A0A0A - Ultra dark card */
+  --card-foreground: 0 0% 95%;
+  --border: 0 0% 8%; /* #141414 - Dark border */
+  --input: 0 0% 6%; /* #0F0F0F - Dark input */
+  --primary: 45 100% 51%; /* #FFD700 - Bright tactical gold */
+  --primary-foreground: 0 0% 2%;
+  --secondary: 0 0% 8%; /* #141414 - Dark secondary */
+  --secondary-foreground: 0 0% 95%;
+  --accent: 0 0% 8%;
+  --accent-foreground: 0 0% 95%;
+  --destructive: 0 75% 45%; /* #CC1F1F - Dark red */
+  --destructive-foreground: 0 0% 95%;
+  --ring: 45 100% 51%;
   --radius: 0.5rem;
   
-  /* Tactical colors */
-  --tactical-dark: 240 100% 8%; /* #0F1419 */
-  --tactical-navy: 214 32% 19%; /* #1A2332 */
-  --tactical-charcoal: 219 20% 28%; /* #2D3748 */
-  --tactical-amber: 25 95% 53%; /* #F6AD55 */
-  --tactical-green: 142 69% 58%; /* #48BB78 */
-  --tactical-orange: 24 94% 50%; /* #ED8936 */
-  --tactical-red: 0 84% 60%; /* #F56565 */
-  --tactical-steel: 218 11% 34%; /* #4A5568 */
-  --tactical-slate: 215 16% 47%; /* #718096 */
+  /* Ultra-Dark Tactical colors */
+  --tactical-dark: 0 0% 2%; /* #050505 - Pure black base */
+  --tactical-navy: 0 0% 4%; /* #0A0A0A - Deep black navy */
+  --tactical-charcoal: 0 0% 8%; /* #141414 - Charcoal black */
+  --tactical-amber: 45 100% 51%; /* #FFD700 - Bright gold accent */
+  --tactical-green: 120 50% 35%; /* #2D5D2D - Dark tactical green */
+  --tactical-orange: 25 80% 40%; /* #CC6600 - Dark orange */
+  --tactical-red: 0 75% 45%; /* #CC1F1F - Dark tactical red */
+  --tactical-steel: 0 0% 12%; /* #1F1F1F - Dark steel */
+  --tactical-slate: 0 0% 35%; /* #595959 - Dark slate text */
 }
 
 .dark {
@@ -65,22 +65,27 @@
 
   body {
     @apply font-sans antialiased;
-    background: hsl(var(--tactical-dark));
+    background: linear-gradient(135deg, #000000 0%, #050505 50%, #0a0a0a 100%);
     color: hsl(var(--foreground));
+    min-height: 100vh;
   }
 }
 
 @layer utilities {
   .tactical-dark {
-    background: hsl(var(--tactical-dark));
+    background: linear-gradient(135deg, #000000 0%, #050505 50%, #0a0a0a 100%);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.8);
   }
   
   .tactical-navy {
-    background: hsl(var(--tactical-navy));
+    background: #0a0a0a;
+    border-color: #1f1f1f;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
   }
   
   .tactical-charcoal {
-    background: hsl(var(--tactical-charcoal));
+    background: #141414;
+    border-color: #1f1f1f;
   }
   
   .text-tactical-amber {
