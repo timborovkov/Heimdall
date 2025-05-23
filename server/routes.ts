@@ -9,13 +9,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/cameras", async (_req, res) => {
     try {
       const cameras = await storage.getCameras();
-      // Convert stored coordinates back to decimal
-      const formattedCameras = cameras.map(camera => ({
-        ...camera,
-        latitude: camera.latitude / 1000000,
-        longitude: camera.longitude / 1000000,
-      }));
-      res.json(formattedCameras);
+      res.json(cameras);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch cameras" });
     }
@@ -34,14 +28,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Camera not found" });
       }
 
-      // Convert stored coordinates back to decimal
-      const formattedCamera = {
-        ...camera,
-        latitude: camera.latitude / 1000000,
-        longitude: camera.longitude / 1000000,
-      };
-
-      res.json(formattedCamera);
+      res.json(camera);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch camera" });
     }
@@ -59,15 +46,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const camera = await storage.createCamera(validatedData);
-      
-      // Convert stored coordinates back to decimal for response
-      const formattedCamera = {
-        ...camera,
-        latitude: camera.latitude / 1000000,
-        longitude: camera.longitude / 1000000,
-      };
-
-      res.status(201).json(formattedCamera);
+      res.status(201).json(camera);
     } catch (error) {
       if (error instanceof z.ZodError) {
         return res.status(400).json({ 
@@ -95,14 +74,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Camera not found" });
       }
 
-      // Convert stored coordinates back to decimal for response
-      const formattedCamera = {
-        ...camera,
-        latitude: camera.latitude / 1000000,
-        longitude: camera.longitude / 1000000,
-      };
-
-      res.json(formattedCamera);
+      res.json(camera);
     } catch (error) {
       if (error instanceof z.ZodError) {
         return res.status(400).json({ 

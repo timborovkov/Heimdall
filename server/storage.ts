@@ -14,17 +14,32 @@ export interface IStorage {
 
 export class DatabaseStorage implements IStorage {
   async getCameras(): Promise<Camera[]> {
-    return await db.select().from(cameras);
+    const cameraList = await db.select().from(cameras);
+    return cameraList.map(camera => ({
+      ...camera,
+      latitude: camera.latitude / 1000000,
+      longitude: camera.longitude / 1000000,
+    }));
   }
 
   async getCamera(id: number): Promise<Camera | undefined> {
     const [camera] = await db.select().from(cameras).where(eq(cameras.id, id));
-    return camera || undefined;
+    if (!camera) return undefined;
+    return {
+      ...camera,
+      latitude: camera.latitude / 1000000,
+      longitude: camera.longitude / 1000000,
+    };
   }
 
   async getCameraByCameraId(cameraId: string): Promise<Camera | undefined> {
     const [camera] = await db.select().from(cameras).where(eq(cameras.cameraId, cameraId));
-    return camera || undefined;
+    if (!camera) return undefined;
+    return {
+      ...camera,
+      latitude: camera.latitude / 1000000,
+      longitude: camera.longitude / 1000000,
+    };
   }
 
   async createCamera(insertCamera: InsertCamera): Promise<Camera> {
@@ -38,7 +53,12 @@ export class DatabaseStorage implements IStorage {
       .insert(cameras)
       .values(cameraData)
       .returning();
-    return camera;
+    
+    return {
+      ...camera,
+      latitude: camera.latitude / 1000000,
+      longitude: camera.longitude / 1000000,
+    };
   }
 
   async updateCamera(id: number, updateCamera: UpdateCamera): Promise<Camera | undefined> {
@@ -53,7 +73,14 @@ export class DatabaseStorage implements IStorage {
       .set(updateData)
       .where(eq(cameras.id, id))
       .returning();
-    return camera || undefined;
+    
+    if (!camera) return undefined;
+    
+    return {
+      ...camera,
+      latitude: camera.latitude / 1000000,
+      longitude: camera.longitude / 1000000,
+    };
   }
 
   async deleteCamera(id: number): Promise<boolean> {
