@@ -1,6 +1,6 @@
-import { cameras, type Camera, type InsertCamera, type UpdateCamera } from "@shared/schema";
+import { cameras, droneAlerts, type Camera, type InsertCamera, type UpdateCamera, type DroneAlert, type InsertDroneAlert, type UpdateDroneAlert } from "@shared/schema";
 import { db } from "./db";
-import { eq } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 
 export interface IStorage {
   getCameras(): Promise<Camera[]>;
