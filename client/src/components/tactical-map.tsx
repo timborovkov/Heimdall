@@ -152,11 +152,11 @@ export default function TacticalMap({ cameras }: TacticalMapProps) {
           const fovPoints = createFOVPolygon(camera);
           if (fovPoints.length > 0) {
             const fovPolygon = window.L.polygon(fovPoints, {
-              color: '#F6AD55',
-              weight: 1,
-              opacity: 0.6,
-              fillColor: '#48BB78',
-              fillOpacity: 0.1
+              color: '#dc2626',
+              weight: 2,
+              opacity: 0.8,
+              fillColor: '#991b1b',
+              fillOpacity: 0.15
             }).addTo(mapInstanceRef.current);
 
             markersRef.current.push(fovPolygon);

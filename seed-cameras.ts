@@ -1,5 +1,5 @@
 import { db } from './server/db';
-import { cameras } from './shared/schema';
+import { cameras, droneAlerts } from './shared/schema';
 
 // Strategic perimeter around Riihimäki, Finland
 // Cameras positioned in a defensive perimeter with overlapping coverage
@@ -211,17 +211,81 @@ const perimeterCameras = [
   }
 ];
 
+// Sample drone alerts for realistic threat scenarios
+const sampleDroneAlerts = [
+  {
+    cameraId: "HEIMDALL-N1",
+    latitude: Math.round(60.7515 * 1000000),
+    longitude: Math.round(24.7735 * 1000000),
+    altitude: 85,
+    confidence: 94,
+    speed: 28,
+    heading: 225,
+    droneType: "Unknown",
+    threatLevel: "High",
+    status: "active",
+    estimatedTrajectory: JSON.stringify([
+      { lat: 60.7515, lng: 24.7735, estimatedTime: "Now", confidence: 94 },
+      { lat: 60.7510, lng: 24.7730, estimatedTime: "+30s", confidence: 88 },
+      { lat: 60.7505, lng: 24.7725, estimatedTime: "+1m", confidence: 82 },
+      { lat: 60.7500, lng: 24.7720, estimatedTime: "+1.5m", confidence: 76 }
+    ]),
+    notes: "Fast-moving object detected approaching industrial zone. Maintain visual contact."
+  },
+  {
+    cameraId: "HEIMDALL-E2",
+    latitude: Math.round(60.7325 * 1000000),
+    longitude: Math.round(24.7885 * 1000000),
+    altitude: 120,
+    confidence: 87,
+    speed: 15,
+    heading: 90,
+    droneType: "Commercial",
+    threatLevel: "Medium",
+    status: "tracking",
+    estimatedTrajectory: JSON.stringify([
+      { lat: 60.7325, lng: 24.7885, estimatedTime: "Now", confidence: 87 },
+      { lat: 60.7325, lng: 24.7890, estimatedTime: "+45s", confidence: 84 },
+      { lat: 60.7325, lng: 24.7895, estimatedTime: "+1.5m", confidence: 80 }
+    ]),
+    notes: "Commercial drone conducting possible surveillance. Low speed suggests reconnaissance activity."
+  },
+  {
+    cameraId: "HEIMDALL-C1",
+    latitude: Math.round(60.7400 * 1000000),
+    longitude: Math.round(24.7725 * 1000000),
+    altitude: 200,
+    confidence: 76,
+    speed: 45,
+    heading: 0,
+    droneType: "Racing",
+    threatLevel: "Low",
+    status: "lost",
+    estimatedTrajectory: JSON.stringify([
+      { lat: 60.7400, lng: 24.7725, estimatedTime: "2m ago", confidence: 76 },
+      { lat: 60.7410, lng: 24.7725, estimatedTime: "1.5m ago", confidence: 65 },
+      { lat: 60.7420, lng: 24.7725, estimatedTime: "1m ago", confidence: 50 }
+    ]),
+    notes: "High-speed racing drone detected. Lost visual contact - likely moved out of range."
+  }
+];
+
 async function seedCameras() {
   try {
     console.log('🎯 Seeding Heimdall Tactical Camera Network...');
     
-    // Clear existing cameras
-    console.log('📡 Clearing existing camera deployments...');
+    // Clear existing data
+    console.log('📡 Clearing existing camera deployments and alerts...');
+    await db.delete(droneAlerts);
     await db.delete(cameras);
     
     // Insert perimeter cameras
     console.log('🚁 Deploying tactical perimeter cameras...');
     const deployedCameras = await db.insert(cameras).values(perimeterCameras).returning();
+    
+    // Insert sample drone alerts
+    console.log('🚨 Creating sample drone threat scenarios...');
+    const deployedAlerts = await db.insert(droneAlerts).values(sampleDroneAlerts).returning();
     
     console.log(`✅ Successfully deployed ${deployedCameras.length} cameras in strategic perimeter formation`);
     console.log('🛡️  Tactical Coverage Analysis:');
@@ -234,9 +298,16 @@ async function seedCameras() {
     console.log(`   • Night Vision: ${deployedCameras.filter(c => c.cameraType === 'Night Vision').length}`);
     console.log(`   • Standard Surveillance: ${deployedCameras.filter(c => c.cameraType === 'Standard Surveillance').length}`);
     
+    console.log(`\n🚨 Threat Alert System Initialized with ${deployedAlerts.length} sample scenarios:`);
+    console.log(`   • Active Threats: ${deployedAlerts.filter(a => a.status === 'active').length}`);
+    console.log(`   • Tracking Mode: ${deployedAlerts.filter(a => a.status === 'tracking').length}`);
+    console.log(`   • Lost Contact: ${deployedAlerts.filter(a => a.status === 'lost').length}`);
+    console.log(`   • High Priority: ${deployedAlerts.filter(a => a.threatLevel === 'High').length}`);
+    
     console.log('\n🎯 Heimdall Tactical Network Deployment Complete!');
     console.log('📍 Perimeter established around Riihimäki, Finland');
     console.log('🔒 All feed credentials configured for secure access');
+    console.log('⚠️  Drone detection system active with threat scenarios');
     
   } catch (error) {
     console.error('❌ Camera deployment failed:', error);
