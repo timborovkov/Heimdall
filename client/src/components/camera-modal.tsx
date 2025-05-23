@@ -25,9 +25,12 @@ export default function CameraModal({ isOpen, onClose, onSuccess, camera }: Came
     cameraId: camera?.cameraId || '',
     latitude: camera?.latitude?.toString() || '',
     longitude: camera?.longitude?.toString() || '',
+    altitude: camera?.altitude?.toString() || '100',
     range: camera?.range?.toString() || '',
     fov: camera?.fov?.toString() || '',
-    direction: camera?.direction?.toString() || '',
+    yaw: camera?.yaw?.toString() || '0',
+    pitch: camera?.pitch?.toString() || '-15',
+    roll: camera?.roll?.toString() || '0',
     status: camera?.status || 'active',
     cameraType: camera?.cameraType || 'Standard Surveillance',
   });
@@ -80,9 +83,12 @@ export default function CameraModal({ isOpen, onClose, onSuccess, camera }: Came
       cameraId: '',
       latitude: '',
       longitude: '',
+      altitude: '100',
       range: '',
       fov: '',
-      direction: '',
+      yaw: '0',
+      pitch: '-15',
+      roll: '0',
       status: 'active',
       cameraType: 'Standard Surveillance',
     });
@@ -103,9 +109,12 @@ export default function CameraModal({ isOpen, onClose, onSuccess, camera }: Came
 
     const latitude = parseFloat(formData.latitude);
     const longitude = parseFloat(formData.longitude);
+    const altitude = parseInt(formData.altitude);
     const range = parseInt(formData.range);
     const fov = parseInt(formData.fov);
-    const direction = parseInt(formData.direction);
+    const yaw = parseInt(formData.yaw);
+    const pitch = parseInt(formData.pitch);
+    const roll = parseInt(formData.roll);
 
     // Validate numeric inputs
     if (isNaN(latitude) || latitude < -90 || latitude > 90) {
@@ -121,6 +130,15 @@ export default function CameraModal({ isOpen, onClose, onSuccess, camera }: Came
       toast({
         title: "Validation Error",
         description: "Longitude must be between -180 and 180",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (isNaN(altitude) || altitude < 0 || altitude > 10000) {
+      toast({
+        title: "Validation Error",
+        description: "Altitude must be between 0 and 10,000 meters",
         variant: "destructive",
       });
       return;
@@ -144,10 +162,28 @@ export default function CameraModal({ isOpen, onClose, onSuccess, camera }: Came
       return;
     }
 
-    if (isNaN(direction) || direction < 0 || direction > 360) {
+    if (isNaN(yaw) || yaw < 0 || yaw > 360) {
       toast({
         title: "Validation Error",
-        description: "Direction must be between 0 and 360 degrees",
+        description: "Yaw must be between 0 and 360 degrees",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (isNaN(pitch) || pitch < -90 || pitch > 90) {
+      toast({
+        title: "Validation Error",
+        description: "Pitch must be between -90 and 90 degrees",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (isNaN(roll) || roll < -180 || roll > 180) {
+      toast({
+        title: "Validation Error",
+        description: "Roll must be between -180 and 180 degrees",
         variant: "destructive",
       });
       return;
@@ -157,9 +193,12 @@ export default function CameraModal({ isOpen, onClose, onSuccess, camera }: Came
       cameraId: formData.cameraId.trim(),
       latitude,
       longitude,
+      altitude,
       range,
       fov,
-      direction,
+      yaw,
+      pitch,
+      roll,
       status: formData.status as "active" | "maintenance" | "offline",
       cameraType: formData.cameraType as "Standard Surveillance" | "Thermal Imaging" | "Night Vision" | "High Resolution",
     };
