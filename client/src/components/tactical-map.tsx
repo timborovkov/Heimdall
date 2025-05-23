@@ -75,12 +75,27 @@ export default function TacticalMap({ cameras }: TacticalMapProps) {
     if (!mapInstanceRef.current || !window.L) return;
 
     // Clear existing markers
-    markersRef.current.forEach(marker => marker.remove());
+    markersRef.current.forEach(marker => {
+      try {
+        marker.remove();
+      } catch (e) {
+        // Silently handle removal errors
+      }
+    });
     markersRef.current = [];
 
     cameras.forEach(camera => {
       const lat = camera.latitude;
       const lng = camera.longitude;
+
+      // Validate coordinates
+      if (typeof lat !== 'number' || typeof lng !== 'number' || 
+          isNaN(lat) || isNaN(lng) || 
+          lat < -90 || lat > 90 || 
+          lng < -180 || lng > 180) {
+        console.warn(`Invalid coordinates for camera ${camera.cameraId}: ${lat}, ${lng}`);
+        return;
+      }
 
       // Create marker
       const marker = window.L.circleMarker([lat, lng], {
@@ -92,31 +107,42 @@ export default function TacticalMap({ cameras }: TacticalMapProps) {
         fillOpacity: 0.8
       }).addTo(mapInstanceRef.current);
 
-      // Add popup
-      marker.bindPopup(`
-        <div style="background: #1A2332; color: white; padding: 8px; border-radius: 4px; border: none;">
-          <strong>${camera.cameraId}</strong><br>
-          Status: ${camera.status.toUpperCase()}<br>
-          Range: ${camera.range}m<br>
-          FOV: ${camera.fov}°<br>
-          Type: ${camera.cameraType}
-        </div>
-      `);
+      // Add popup with error handling
+      try {
+        marker.bindPopup(`
+          <div style="background: #1A2332; color: white; padding: 8px; border-radius: 4px; border: none;">
+            <strong>${camera.cameraId}</strong><br>
+            Status: ${camera.status.toUpperCase()}<br>
+            Range: ${camera.range}m<br>
+            FOV: ${camera.fov}°<br>
+            Type: ${camera.cameraType}<br>
+            Position: ${lat.toFixed(4)}, ${lng.toFixed(4)}
+          </div>
+        `);
+      } catch (e) {
+        console.warn(`Failed to bind popup for camera ${camera.cameraId}`);
+      }
 
       markersRef.current.push(marker);
 
       // Create field of view if camera is active
       if (camera.status === 'active') {
-        const fovPoints = createFOVPolygon(camera);
-        const fovPolygon = window.L.polygon(fovPoints, {
-          color: '#F6AD55',
-          weight: 2,
-          opacity: 0.8,
-          fillColor: '#F6AD55',
-          fillOpacity: 0.2
-        }).addTo(mapInstanceRef.current);
+        try {
+          const fovPoints = createFOVPolygon(camera);
+          if (fovPoints.length > 0) {
+            const fovPolygon = window.L.polygon(fovPoints, {
+              color: '#F6AD55',
+              weight: 2,
+              opacity: 0.8,
+              fillColor: '#F6AD55',
+              fillOpacity: 0.2
+            }).addTo(mapInstanceRef.current);
 
-        markersRef.current.push(fovPolygon);
+            markersRef.current.push(fovPolygon);
+          }
+        } catch (e) {
+          console.warn(`Failed to create FOV for camera ${camera.cameraId}`);
+        }
       }
     });
   }, [cameras]);

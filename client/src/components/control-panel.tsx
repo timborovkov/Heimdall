@@ -14,8 +14,11 @@ export default function ControlPanel({ cameras }: ControlPanelProps) {
   
   const networkHealth = cameras.length > 0 ? (activeCameras.length / cameras.length) * 100 : 0;
   
-  // Mock recent detections count
-  const recentDetections = Math.floor(Math.random() * 20) + 5;
+  // Calculate recent detections from actual camera data
+  const recentDetections = cameras.filter(camera => 
+    camera.lastDetection && 
+    new Date().getTime() - new Date(camera.lastDetection).getTime() < 3600000 // Within last hour
+  ).length;
 
   const mockAlerts = [
     {

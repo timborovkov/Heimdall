@@ -37,7 +37,7 @@ export default function CameraCard({ camera, onEdit, onDelete }: CameraCardProps
   });
 
   const handleDelete = () => {
-    if (confirm(`Are you sure you want to delete ${camera.cameraId}?`)) {
+    if (window.confirm(`Are you sure you want to delete ${camera.cameraId}?`)) {
       deleteMutation.mutate();
     }
   };

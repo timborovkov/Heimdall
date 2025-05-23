@@ -75,6 +75,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           errors: error.errors 
         });
       }
+      console.error("Error creating camera:", error);
       res.status(500).json({ message: "Failed to create camera" });
     }
   });

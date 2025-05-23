@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { X, Video } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -91,13 +91,75 @@ export default function CameraModal({ isOpen, onClose, onSuccess, camera }: Came
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Validate required fields
+    if (!formData.cameraId.trim()) {
+      toast({
+        title: "Validation Error",
+        description: "Camera ID is required",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const latitude = parseFloat(formData.latitude);
+    const longitude = parseFloat(formData.longitude);
+    const range = parseInt(formData.range);
+    const fov = parseInt(formData.fov);
+    const direction = parseInt(formData.direction);
+
+    // Validate numeric inputs
+    if (isNaN(latitude) || latitude < -90 || latitude > 90) {
+      toast({
+        title: "Validation Error",
+        description: "Latitude must be between -90 and 90",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (isNaN(longitude) || longitude < -180 || longitude > 180) {
+      toast({
+        title: "Validation Error",
+        description: "Longitude must be between -180 and 180",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (isNaN(range) || range < 100 || range > 2000) {
+      toast({
+        title: "Validation Error",
+        description: "Range must be between 100 and 2000 meters",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (isNaN(fov) || fov < 30 || fov > 180) {
+      toast({
+        title: "Validation Error",
+        description: "Field of view must be between 30 and 180 degrees",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (isNaN(direction) || direction < 0 || direction > 360) {
+      toast({
+        title: "Validation Error",
+        description: "Direction must be between 0 and 360 degrees",
+        variant: "destructive",
+      });
+      return;
+    }
+
     const data = {
-      cameraId: formData.cameraId,
-      latitude: parseFloat(formData.latitude),
-      longitude: parseFloat(formData.longitude),
-      range: parseInt(formData.range),
-      fov: parseInt(formData.fov),
-      direction: parseInt(formData.direction),
+      cameraId: formData.cameraId.trim(),
+      latitude,
+      longitude,
+      range,
+      fov,
+      direction,
       status: formData.status as "active" | "maintenance" | "offline",
       cameraType: formData.cameraType as "Standard Surveillance" | "Thermal Imaging" | "Night Vision" | "High Resolution",
     };
@@ -124,6 +186,9 @@ export default function CameraModal({ isOpen, onClose, onSuccess, camera }: Came
             <Video className="text-tactical-amber mr-2" size={20} />
             {isEditing ? "MODIFY CAMERA" : "DEPLOY NEW CAMERA"}
           </DialogTitle>
+          <DialogDescription className="text-tactical-slate text-sm">
+            {isEditing ? "Update camera settings and position" : "Configure and deploy a new surveillance camera to the network"}
+          </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4 mt-4">
