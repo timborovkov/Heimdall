@@ -21,6 +21,23 @@ export const cameras = pgTable("cameras", {
   lastDetection: timestamp("last_detection"),
 });
 
+export const droneAlerts = pgTable("drone_alerts", {
+  id: serial("id").primaryKey(),
+  detectedAt: timestamp("detected_at").notNull().defaultNow(),
+  cameraId: text("camera_id").notNull(),
+  latitude: integer("latitude").notNull(), // drone position * 1000000
+  longitude: integer("longitude").notNull(), // drone position * 1000000
+  altitude: integer("altitude").notNull(), // drone altitude in meters
+  confidence: integer("confidence").notNull(), // probability 0-100%
+  speed: integer("speed").notNull(), // km/h
+  heading: integer("heading").notNull(), // direction 0-360 degrees
+  droneType: text("drone_type").notNull(), // "Unknown", "Commercial", "Military", "Racing"
+  threatLevel: text("threat_level").notNull(), // "Low", "Medium", "High", "Critical"
+  status: text("status").notNull().default("active"), // "active", "tracking", "lost", "neutralized"
+  estimatedTrajectory: text("estimated_trajectory"), // JSON array of predicted positions
+  notes: text("notes"),
+});
+
 export const insertCameraSchema = createInsertSchema(cameras).omit({
   id: true,
   lastDetection: true,
@@ -42,6 +59,16 @@ export const insertCameraSchema = createInsertSchema(cameras).omit({
 
 export const updateCameraSchema = insertCameraSchema.partial();
 
+export const insertDroneAlertSchema = createInsertSchema(droneAlerts).omit({
+  id: true,
+  detectedAt: true,
+});
+
+export const updateDroneAlertSchema = insertDroneAlertSchema.partial();
+
 export type InsertCamera = z.infer<typeof insertCameraSchema>;
 export type UpdateCamera = z.infer<typeof updateCameraSchema>;
 export type Camera = typeof cameras.$inferSelect;
+export type DroneAlert = typeof droneAlerts.$inferSelect;
+export type InsertDroneAlert = z.infer<typeof insertDroneAlertSchema>;
+export type UpdateDroneAlert = z.infer<typeof updateDroneAlertSchema>;

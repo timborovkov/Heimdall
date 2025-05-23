@@ -10,6 +10,13 @@ export interface IStorage {
   updateCamera(id: number, camera: UpdateCamera): Promise<Camera | undefined>;
   deleteCamera(id: number): Promise<boolean>;
   updateLastDetection(cameraId: string): Promise<void>;
+  
+  // Drone Alert methods
+  getDroneAlerts(): Promise<DroneAlert[]>;
+  getDroneAlert(id: number): Promise<DroneAlert | undefined>;
+  createDroneAlert(alert: InsertDroneAlert): Promise<DroneAlert>;
+  updateDroneAlert(id: number, alert: UpdateDroneAlert): Promise<DroneAlert | undefined>;
+  deleteDroneAlert(id: number): Promise<boolean>;
 }
 
 export class DatabaseStorage implements IStorage {
