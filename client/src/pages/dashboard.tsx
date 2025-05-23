@@ -186,7 +186,6 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
-
       {/* Header */}
       <header className="tactical-navy border-b border-tactical-steel px-6 py-4">
         <div className="flex items-center justify-between">
@@ -217,7 +216,6 @@ export default function Dashboard() {
           </div>
         </div>
       </header>
-
       <div className="flex h-[calc(100vh-80px)]">
         {/* Main Content */}
         <main className="flex-1 flex flex-col">
@@ -278,7 +276,7 @@ export default function Dashboard() {
           {/* Camera Management Section */}
           <section className="flex-1 tactical-navy border-t border-tactical-steel">
             <div className="h-full flex flex-col">
-              <div className="tactical-charcoal px-6 py-3 border-b border-tactical-steel">
+              <div className="tactical-charcoal px-6 py-3 border-b border-tactical-steel mt-[30px] mb-[30px]">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
                     <Radar className="text-tactical-amber" size={20} />
@@ -317,14 +315,12 @@ export default function Dashboard() {
         {/* Side Panel */}
         <ControlPanel cameras={cameras} />
       </div>
-
       {/* Add Camera Modal */}
       <CameraModal
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
         onSuccess={handleCameraAdded}
       />
-
       {/* Edit Camera Modal */}
       {editingCamera && (
         <CameraModal
@@ -334,14 +330,12 @@ export default function Dashboard() {
           camera={editingCamera}
         />
       )}
-
       {/* Live Camera Feed Viewer */}
       <CameraFeedViewer
         camera={viewingFeedCamera}
         isOpen={!!viewingFeedCamera}
         onClose={() => setViewingFeedCamera(null)}
       />
-
       {/* Drone Trajectory Map */}
       <DroneTrajectoryMap
         alert={viewingTrajectory}
