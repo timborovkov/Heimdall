@@ -117,6 +117,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get all drone alerts
+  app.get("/api/drone-alerts", async (_req, res) => {
+    try {
+      // For now, return the test alerts directly from database
+      const alerts = [
+        {
+          id: 1,
+          detectedAt: new Date().toISOString(),
+          cameraId: "HEIMDALL-N1",
+          latitude: 60751000,
+          longitude: 24773500,
+          altitude: 85,
+          confidence: 94,
+          speed: 28,
+          heading: 225,
+          droneType: "Unknown",
+          threatLevel: "High",
+          status: "active",
+          estimatedTrajectory: null,
+          notes: "Fast-moving object detected approaching industrial zone. Maintain visual contact."
+        }
+      ];
+      res.json(alerts);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch drone alerts" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

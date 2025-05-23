@@ -7,17 +7,25 @@ import CameraModal from "@/components/camera-modal";
 import CameraFeedViewer from "@/components/camera-feed-viewer";
 import ControlPanel from "@/components/control-panel";
 import HeimdallLogo from "@/components/heimdall-logo";
+import DroneAlertBanner from "@/components/drone-alert-banner";
+import DroneTrajectoryMap from "@/components/drone-trajectory-map";
 import { Button } from "@/components/ui/button";
-import type { Camera } from "@shared/schema";
+import type { Camera, DroneAlert } from "@shared/schema";
 
 export default function Dashboard() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editingCamera, setEditingCamera] = useState<Camera | null>(null);
   const [viewingFeedCamera, setViewingFeedCamera] = useState<Camera | null>(null);
+  const [viewingTrajectory, setViewingTrajectory] = useState<DroneAlert | null>(null);
   const [currentTime, setCurrentTime] = useState(new Date());
 
   const { data: cameras = [], isLoading, refetch } = useQuery<Camera[]>({
     queryKey: ["/api/cameras"],
+  });
+
+  const { data: droneAlerts = [] } = useQuery<DroneAlert[]>({
+    queryKey: ["/api/drone-alerts"],
+    refetchInterval: 3000, // Refresh every 3 seconds for real-time alerts
   });
 
   useEffect(() => {
@@ -49,6 +57,15 @@ export default function Dashboard() {
 
   const handleViewFeed = (camera: Camera) => {
     setViewingFeedCamera(camera);
+  };
+
+  const handleDismissAlert = (alertId: number) => {
+    // In a real implementation, this would update the alert status
+    console.log('Dismissing alert:', alertId);
+  };
+
+  const handleViewTrajectory = (alert: DroneAlert) => {
+    setViewingTrajectory(alert);
   };
 
   if (isLoading) {
