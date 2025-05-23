@@ -109,8 +109,8 @@ const perimeterCameras = [
   // West Perimeter - Forest and Lake Access
   {
     cameraId: "HEIMDALL-W1",
-    latitude: 60.7395,
-    longitude: 24.7520, // West forest edge
+    latitude: Math.round(60.7395 * 1000000),
+    longitude: Math.round(24.7520 * 1000000), // West forest edge
     altitude: 115,
     range: 850,
     fov: 100,
@@ -125,8 +125,8 @@ const perimeterCameras = [
   },
   {
     cameraId: "HEIMDALL-W2",
-    latitude: 60.7460,
-    longitude: 24.7600, // Northwest lake access
+    latitude: Math.round(60.7460 * 1000000),
+    longitude: Math.round(24.7600 * 1000000), // Northwest lake access
     altitude: 100,
     range: 680,
     fov: 88,
@@ -143,8 +143,8 @@ const perimeterCameras = [
   // Central Command Positions - Overlapping Coverage
   {
     cameraId: "HEIMDALL-C1",
-    latitude: 60.7395, // Central position - elevated
-    longitude: 24.7729,
+    latitude: Math.round(60.7395 * 1000000), // Central position - elevated
+    longitude: Math.round(24.7729 * 1000000),
     altitude: 140,
     range: 1000,
     fov: 120,
@@ -159,8 +159,8 @@ const perimeterCameras = [
   },
   {
     cameraId: "HEIMDALL-C2",
-    latitude: 60.7395, // Central position - secondary
-    longitude: 24.7729,
+    latitude: Math.round(60.7395 * 1000000), // Central position - secondary
+    longitude: Math.round(24.7729 * 1000000),
     altitude: 135,
     range: 950,
     fov: 110,
@@ -177,8 +177,8 @@ const perimeterCameras = [
   // Mobile Response Unit
   {
     cameraId: "HEIMDALL-M1",
-    latitude: 60.7350, // Mobile patrol position
-    longitude: 24.7680,
+    latitude: Math.round(60.7350 * 1000000), // Mobile patrol position
+    longitude: Math.round(24.7680 * 1000000),
     altitude: 85,
     range: 500,
     fov: 60,
@@ -195,8 +195,8 @@ const perimeterCameras = [
   // Emergency Backup Position
   {
     cameraId: "HEIMDALL-B1",
-    latitude: 60.7440, // Backup high ground
-    longitude: 24.7780,
+    latitude: Math.round(60.7440 * 1000000), // Backup high ground
+    longitude: Math.round(24.7780 * 1000000),
     altitude: 160,
     range: 1200,
     fov: 140,
